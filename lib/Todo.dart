@@ -36,11 +36,15 @@ class _TodoAppState extends State<TodoApp> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // 화면 가로와 세로 넓이 확인
+    // 화면 가로와 세로 넓이 확인 만들기
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       // 앱 바 설정
+      // 구글 폰트 패키지 가져오는 방법
+      // 앱 바 배경색 바꾸기
+      // 글 색, 아이콘색 바꾸기
+      // builder 쓸때 context에 대한 설명
       appBar: AppBar(
         leading: Builder(
           builder: (BuildContext context) {
@@ -91,7 +95,9 @@ class _TodoAppState extends State<TodoApp> with TickerProviderStateMixin {
       ),
       // 본 화면 설정
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: <Widget>[
+          // 헤더 설정
           Container(
             height: screenHeight / 3,
             width: screenWidth,
@@ -124,6 +130,7 @@ class _TodoAppState extends State<TodoApp> with TickerProviderStateMixin {
                       ],
                     ),
                     child: Center(
+                      // 컨트롤러랑 제출 함수는 나중에 하기
                       child: TextField(
                         controller: _textController,
                         onSubmitted: _handleSubmitted,
@@ -152,7 +159,7 @@ class _TodoAppState extends State<TodoApp> with TickerProviderStateMixin {
               itemBuilder: (context, index) {
                 final _message = _messages[index];
                 return Dismissible(
-                  key: ObjectKey(_message),
+                  key: Key(index.toString()),
                   onDismissed: (direction) {
                     print("dissmissed: $context");
                     if (_messages.contains(_message)) {
@@ -162,6 +169,7 @@ class _TodoAppState extends State<TodoApp> with TickerProviderStateMixin {
                         },
                       );
                     }
+                    // 시간 남으면 하자
                     Scaffold.of(context).showSnackBar(
                       SnackBar(
                         content: Text("message box ${_message.text} dismissed"),
@@ -178,6 +186,7 @@ class _TodoAppState extends State<TodoApp> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
+                  // 여기 부터 먼저하기
                   child: InkWell(
                     onTap: () => Navigator.push(
                       context,
